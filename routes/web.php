@@ -80,6 +80,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/import', [ImportController::class, 'create'])->name('import.create');
         Route::post('/import', [ImportController::class, 'store'])->name('import.store');
+        Route::post('/import/proses', [ImportController::class, 'proses'])->name('import.proses');
 
         Route::resource('startup', AdminStartupController::class)->except('show');
 
