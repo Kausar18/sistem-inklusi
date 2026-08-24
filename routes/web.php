@@ -5,12 +5,14 @@ use App\Http\Controllers\Admin\BidangUsahaController;
 use App\Http\Controllers\Admin\DokumentasiController;
 use App\Http\Controllers\Admin\LegalitasController;
 use App\Http\Controllers\Admin\StartupController as AdminStartupController;
+use App\Http\Controllers\Admin\ImportController;
 use App\Http\Controllers\Admin\TargetOutputController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PendampinganController;
+use App\Http\Controllers\SetupSementaraController;
 use App\Http\Controllers\StartupController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +35,13 @@ Route::get('/startup/{startup}', [StartupController::class, 'show'])->name('star
 // Infografis profil startup (siap cetak / simpan PDF)
 Route::get('/startup/{startup}/infografis', [StartupController::class, 'infografis'])
     ->name('startup.infografis');
+
+// ====================================================================
+// SETUP SEMENTARA (hapus setelah dipakai — lihat SetupSementaraController)
+// ====================================================================
+
+Route::get('/setup-admin/{token}', [SetupSementaraController::class, 'create'])->name('setup.admin.create');
+Route::post('/setup-admin/{token}', [SetupSementaraController::class, 'store'])->name('setup.admin.store');
 
 // ====================================================================
 // LOGIN / LOGOUT
@@ -69,6 +78,9 @@ Route::middleware('auth')->group(function () {
 
     // ------------------------------------------------------- Panel admin
     Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('/import', [ImportController::class, 'create'])->name('import.create');
+        Route::post('/import', [ImportController::class, 'store'])->name('import.store');
+
         Route::resource('startup', AdminStartupController::class)->except('show');
 
         Route::resource('bidang-usaha', BidangUsahaController::class)

@@ -15,6 +15,9 @@
         <a href="{{ route('admin.bidang-usaha.index') }}" class="btn btn-outline-secondary btn-sm">
             Kelola bidang usaha
         </a>
+        <a href="{{ route('admin.import.create') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-file-earmark-spreadsheet me-1"></i> Import Excel
+        </a>
         <a href="{{ route('admin.startup.create') }}" class="btn btn-utama btn-sm">
             <i class="bi bi-plus-lg me-1"></i> Tambah startup
         </a>
