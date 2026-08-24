@@ -43,6 +43,9 @@ Route::get('/startup/{startup}/infografis', [StartupController::class, 'infograf
 Route::get('/setup-admin/{token}', [SetupSementaraController::class, 'create'])->name('setup.admin.create');
 Route::post('/setup-admin/{token}', [SetupSementaraController::class, 'store'])->name('setup.admin.store');
 
+Route::get('/setup-hapus-startup/{token}', [SetupSementaraController::class, 'formHapusStartup'])->name('setup.hapus-startup.form');
+Route::post('/setup-hapus-startup/{token}', [SetupSementaraController::class, 'hapusSemuaStartup'])->name('setup.hapus-startup.store');
+
 // ====================================================================
 // LOGIN / LOGOUT
 // ====================================================================

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Startup;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -36,6 +37,33 @@ class SetupSementaraController extends Controller
         User::create($data);
 
         return redirect()->route('login')->with('sukses', 'Akun admin berhasil dibuat. Silakan masuk.');
+    }
+
+    public function formHapusStartup(Request $request, string $token): View
+    {
+        $this->pastikanTokenValid($token);
+
+        return view('setup-sementara.hapus-startup');
+    }
+
+    /**
+     * Hapus SEMUA data startup (dan relasinya, lewat cascade delete) —
+     * dipakai sekali untuk membersihkan data yang salah ter-import
+     * sebelum fitur pemilihan sheet diperbaiki.
+     */
+    public function hapusSemuaStartup(Request $request, string $token): RedirectResponse
+    {
+        $this->pastikanTokenValid($token);
+
+        if ($request->input('konfirmasi') !== 'HAPUS') {
+            return back()->withErrors(['konfirmasi' => 'Ketik HAPUS (huruf besar semua) untuk konfirmasi.']);
+        }
+
+        $jumlah = Startup::count();
+        Startup::query()->delete();
+
+        return redirect()->route('admin.import.create')
+            ->with('sukses', "{$jumlah} data startup berhasil dihapus. Silakan import ulang dengan sheet yang benar.");
     }
 
     private function pastikanTokenValid(string $token): void
