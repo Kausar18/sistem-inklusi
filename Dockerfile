@@ -6,9 +6,9 @@ FROM php:8.3-apache
 # ---------------------------------------------------------------------
 RUN apt-get update && apt-get install -y \
         libzip-dev libpng-dev libjpeg-dev libfreetype6-dev libicu-dev \
-        libonig-dev unzip git \
+        libonig-dev libpq-dev unzip git \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_mysql gd zip bcmath intl \
+    && docker-php-ext-install pdo_mysql pdo_pgsql gd zip bcmath intl \
     && a2enmod rewrite \
     && rm -rf /var/lib/apt/lists/*
 
