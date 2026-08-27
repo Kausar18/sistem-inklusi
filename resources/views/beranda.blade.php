@@ -31,10 +31,9 @@
     <div class="hero-selubung"></div>
 
     <div class="container hero-isi">
-        <span class="lencana-hero">Lembaga Pengembangan Agribisnis dan Inkubator Inovasi</span>
 
         {{-- ISI DI SINI: judul utama program --}}
-        <h1 class="hero-judul">Sistem Inklusi</h1>
+        <h1 class="hero-judul">Sistem Inkubasi</h1>
 
         {{-- ISI DI SINI: satu paragraf pengantar, 2-3 kalimat --}}
         <p class="hero-teks">
@@ -66,7 +65,7 @@
                 ['nilai' => $angka['bidang'],  'label' => 'Bidang usaha'],
             ] as $item)
                 <div class="col-6 col-lg-3 sel-angka">
-                    <div class="angka-besar">{{ number_format($item['nilai'], 0, ',', '.') }}</div>
+                    <div class="angka-besar" data-hitung="{{ $item['nilai'] }}">0</div>
                     <div class="angka-label">{{ $item['label'] }}</div>
                 </div>
             @endforeach
@@ -107,7 +106,7 @@
                     tiap startup dapat dipantau dari waktu ke waktu.
                 </p>
                 <p class="mb-0">
-                    Sistem Inklusi ini sendiri merupakan wujud transparansi program —
+                    Sistem Inkubasi ini sendiri merupakan wujud transparansi program —
                     menghimpun profil, proses pendampingan, dan capaian kinerja seluruh
                     startup binaan dalam satu tempat yang dapat diakses publik.
                 </p>
@@ -137,13 +136,16 @@
 
         <div class="row g-3">
             @foreach ([
-                ['ikon' => 'clipboard-check', 'judul' => 'Pendaftaran',      'teks' => 'Startup mendaftar dan menyerahkan profil usaha beserta proposal.'],
-                ['ikon' => 'mortarboard',     'judul' => 'Training',          'teks' => 'Pembekalan kemampuan dasar usaha dan pengembangan produk.'],
-                ['ikon' => 'people',          'judul' => 'Mentoring',         'teks' => 'Pendampingan berkala bersama tim pendamping dan pakar.'],
-                ['ikon' => 'briefcase',       'judul' => 'Business matching', 'teks' => 'Mempertemukan startup dengan mitra usaha dan calon pembeli.'],
+                ['ikon' => 'clipboard-check',   'judul' => 'Pendaftaran',              'teks' => 'Startup mendaftar dan menyerahkan profil usaha beserta proposal.'],
+                ['ikon' => 'funnel',            'judul' => 'Seleksi',                  'teks' => 'Kurasi dan penilaian proposal untuk menentukan startup yang lolos ke tahap berikutnya.'],
+                ['ikon' => 'easel3',            'judul' => 'Workshop Action Plan',     'teks' => 'Menyusun rencana aksi dan target pengembangan usaha bersama fasilitator.'],
+                ['ikon' => 'rocket-takeoff',    'judul' => 'Bootcamp',                 'teks' => 'Pembekalan intensif kemampuan dasar usaha dan pengembangan produk.'],
+                ['ikon' => 'person-video3',     'judul' => 'Coaching',                 'teks' => 'Pendampingan personal untuk mempertajam strategi dan menyelesaikan kendala usaha.'],
+                ['ikon' => 'people',            'judul' => 'Mentoring',                'teks' => 'Pendampingan berkala bersama tim pendamping dan pakar.'],
+                ['ikon' => 'shop-window',       'judul' => 'Business Matching dan Expo', 'teks' => 'Mempertemukan startup dengan mitra usaha, calon pembeli, dan investor melalui pameran.'],
             ] as $i => $tahap)
                 <div class="col-md-6 col-xl-3">
-                    <div class="kartu-tahap reveal h-100" style="--tunda: {{ $i * 80 }}ms;">
+                    <div class="kartu-tahap reveal h-100" style="--tunda: {{ ($i % 4) * 80 }}ms;">
                         <div class="nomor-tahap">{{ $i + 1 }}</div>
                         <i class="bi bi-{{ $tahap['ikon'] }} ikon-tahap"></i>
                         <h3 class="h6 mb-2">{{ $tahap['judul'] }}</h3>
@@ -203,3 +205,52 @@
 </section>
 
 @endsection
+
+@push('skrip')
+<script>
+(function () {
+    const elemen = document.querySelectorAll('[data-hitung]');
+    if (!elemen.length) return;
+
+    const formatAngka = (n) => new Intl.NumberFormat('id-ID').format(Math.round(n));
+    const kurangGerak = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const animasikan = (el) => {
+        const target = parseInt(el.dataset.hitung, 10) || 0;
+
+        if (kurangGerak) {
+            el.textContent = formatAngka(target);
+            return;
+        }
+
+        const durasi = 1400;
+        const mulai = performance.now();
+
+        const langkah = (waktuSekarang) => {
+            const progres = Math.min((waktuSekarang - mulai) / durasi, 1);
+            const easeOut = 1 - Math.pow(1 - progres, 3);
+            el.textContent = formatAngka(target * easeOut);
+
+            if (progres < 1) requestAnimationFrame(langkah);
+        };
+
+        requestAnimationFrame(langkah);
+    };
+
+    if ('IntersectionObserver' in window) {
+        const pengamat = new IntersectionObserver((entries, obs) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    animasikan(entry.target);
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.4 });
+
+        elemen.forEach((el) => pengamat.observe(el));
+    } else {
+        elemen.forEach(animasikan);
+    }
+})();
+</script>
+@endpush

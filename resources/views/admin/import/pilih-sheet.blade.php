@@ -10,7 +10,7 @@
         <i class="bi bi-arrow-left"></i> Batal, kembali
     </a>
     <h1 class="h4 mb-1">Pilih Sheet yang Benar</h1>
-    <p class="mb-0 small" style="color: var(--redup);">
+    <p class="mb-0" style="color: #344054; text-align: justify;">
         Berkas <strong>{{ $namaAsli }}</strong> punya lebih dari satu sheet. Pilih sheet yang berisi data yang sudah
         difilter/final — biasanya BUKAN sheet mentahan respons formulir.
     </p>
@@ -30,7 +30,7 @@
                 <div class="form-check mb-2">
                     <input type="radio" name="sheet" value="{{ $nama }}" id="sheet-{{ $loop->index }}"
                            class="form-check-input" required>
-                    <label for="sheet-{{ $loop->index }}" class="form-check-label">{{ $nama }}</label>
+                    <label for="sheet-{{ $loop->index }}" class="form-check-label fw-semibold">{{ $nama }}</label>
                 </div>
             @endforeach
         </div>

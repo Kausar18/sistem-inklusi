@@ -6,9 +6,8 @@
 
 {{-- ======================== NAVIGASI BALIK ======================== --}}
 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-    <a href="{{ url()->previous() === url()->current() ? route('startup.index') : url()->previous() }}"
-       class="d-inline-flex align-items-center gap-2 text-decoration-none small"
-       style="color: var(--redup);">
+    <a href="{{ route('startup.index') }}"
+       class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-2">
         <i class="bi bi-arrow-left"></i> Kembali ke daftar
     </a>
 
@@ -19,9 +18,22 @@
     @endauth
 </div>
 
+{{-- ======================== NAVIGASI CEPAT ANTAR BAGIAN ======================== --}}
+<nav class="nav-bagian mb-4" aria-label="Navigasi bagian profil">
+    <div class="nav-bagian-scroll">
+        <a href="#kinerja">Kinerja</a>
+        <a href="#produk">Produk</a>
+        <a href="#ceo">Profil CEO</a>
+        <a href="#tim">Tim</a>
+        <a href="#legalitas">Legalitas</a>
+        <a href="#berkas">Berkas</a>
+        <a href="#lokasi">Lokasi</a>
+    </div>
+</nav>
+
 
 {{-- ======================== KEPALA PROFIL ======================== --}}
-<div class="panel p-4 mb-4">
+<div class="panel reveal p-4 mb-4">
     <div class="d-flex flex-wrap gap-3 align-items-start">
 
         @if ($logo)
@@ -88,7 +100,7 @@
 </div>
 
 {{-- ======================== PERBANDINGAN BEFORE-AFTER ======================== --}}
-<div class="panel p-4 mb-4" id="kinerja">
+<div class="panel reveal p-4 mb-4" id="kinerja" style="--tunda: 60ms;">
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
         <h2 class="h6 mb-0">Perkembangan kinerja</h2>
         <div class="d-flex align-items-center gap-3">
@@ -117,18 +129,21 @@
         <div class="row g-3">
             @foreach ($perbandingan as $item)
                 @php
+                    $isTeks = $item['format'] === 'teks';
                     $before = $item['before'];
                     $after  = $item['after'];
-                    $adaKeduanya = $before > 0 && $after !== null;
+                    $adaKeduanya = ! $isTeks && $before > 0 && $after !== null;
                     $selisih = $adaKeduanya ? $after - $before : null;
                     $persen  = $adaKeduanya ? round((($after - $before) / $before) * 100, 1) : null;
                     $naik    = $selisih !== null && $selisih >= 0;
-                    $format  = fn ($n) => $item['format'] === 'rupiah'
-                        ? 'Rp ' . number_format($n, 0, ',', '.')
-                        : number_format($n, 0, ',', '.');
+                    $format  = fn ($n) => match ($item['format']) {
+                        'rupiah' => 'Rp ' . number_format($n, 0, ',', '.'),
+                        'teks'   => $n ?: '—',
+                        default  => number_format($n, 0, ',', '.'),
+                    };
                 @endphp
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="kotak-banding">
                         <div class="label-kecil mb-2">{{ $item['label'] }}</div>
 
@@ -164,7 +179,6 @@
             {{-- Indikator kualitatif --}}
             @foreach ([
                 ['Jumlah mitra',      $terbaru->jumlah_mitra],
-                ['Wilayah penjualan', $terbaru->wilayah_penjualan ?: $startup->jangkauan_pasar],
                 ['Izin edar',         $terbaru->izin_edar],
             ] as [$label, $nilai])
                 @if (filled($nilai))
@@ -182,7 +196,7 @@
 
 {{-- ============ PERBANDINGAN OMZET ANTAR PERIODE (data pendaftaran) ============ --}}
 @if ($startup->omset_awal > 0 || $startup->omset_pembanding > 0)
-    <div class="panel p-4 mb-4">
+    <div class="panel reveal p-4 mb-4" style="--tunda: 60ms;">
         <h2 class="h6 mb-1">Omzet menurut data pendaftaran</h2>
         <p class="small mb-3" style="color: var(--redup);">
             Dua nilai berikut berasal dari formulir pendaftaran, bukan dari pemantauan.
@@ -238,7 +252,7 @@
 
 {{-- ======================== RIWAYAT PEMANTAUAN ======================== --}}
 @if ($startup->monitoring->isNotEmpty())
-    <div class="panel p-4 mb-4">
+    <div class="panel reveal p-4 mb-4" style="--tunda: 60ms;">
         <h2 class="h6 mb-3">Riwayat pemantauan</h2>
 
         <div class="table-responsive">
@@ -301,17 +315,12 @@
     <div class="col-lg-8">
 
         {{-- Produk --}}
-        <div class="panel p-4 mb-4">
+        <div class="panel reveal p-4 mb-4" id="produk">
             <h2 class="h6 mb-3">Produk &amp; usaha</h2>
 
             <dl class="row mb-0 daftar-data">
                 <dt class="col-sm-4">Nama produk/jasa</dt>
                 <dd class="col-sm-8">{{ $startup->nama_produk ?? '—' }}</dd>
-
-                @if ($startup->judul_proposal)
-                    <dt class="col-sm-4">Judul proposal</dt>
-                    <dd class="col-sm-8">{{ $startup->judul_proposal }}</dd>
-                @endif
 
                 <dt class="col-sm-4">Mulai usaha</dt>
                 <dd class="col-sm-8">
@@ -359,13 +368,13 @@
 
         {{-- Galeri foto produk --}}
         @if ($fotoProduk->isNotEmpty())
-            <div class="panel p-4 mb-4">
+            <div class="panel reveal p-4 mb-4">
                 <h2 class="h6 mb-3">Foto produk</h2>
 
                 <div class="row g-3">
                     @foreach ($fotoProduk as $foto)
                         <div class="col-sm-6">
-                            <a href="{{ $foto->file }}" target="_blank" rel="noopener" class="bingkai-foto">
+                            <a href="{{ $foto->url_asli }}" target="_blank" rel="noopener" class="bingkai-foto">
                                 <img src="{{ $foto->gambar(800) }}"
                                      alt="Foto produk {{ $startup->nama_startup }}"
                                      loading="lazy" referrerpolicy="no-referrer"
@@ -380,9 +389,16 @@
             </div>
         @endif
 
+        {{--
+            Narasi (Permasalahan & rencana) & Riwayat pendampingan
+            disembunyikan dari tampilan sesuai revisi atasan. Kode di bawah
+            sengaja dipertahankan (bukan dihapus) supaya gampang dimunculkan
+            lagi kalau nanti dibutuhkan — cukup hapus "@if (false)" ini.
+        --}}
+        @if (false)
         {{-- Narasi --}}
         @if ($startup->permasalahan_utama || $startup->rencana_pengembangan)
-            <div class="panel p-4 mb-4">
+            <div class="panel reveal p-4 mb-4">
                 <h2 class="h6 mb-3">Permasalahan &amp; rencana</h2>
 
                 @if ($startup->permasalahan_utama)
@@ -398,7 +414,7 @@
         @endif
 
         {{-- Riwayat pendampingan --}}
-        <div class="panel p-4 mb-4" id="pendampingan">
+        <div class="panel reveal p-4 mb-4" id="pendampingan">
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
                 <h2 class="h6 mb-0">Riwayat pendampingan</h2>
                 @auth
@@ -452,6 +468,7 @@
                 </div>
             @endforelse
         </div>
+        @endif
 
     </div>
 
@@ -459,11 +476,11 @@
     <div class="col-lg-4">
 
         {{-- Profil CEO --}}
-        <div class="panel p-4 mb-4">
+        <div class="panel reveal p-4 mb-4" id="ceo">
             <h2 class="h6 mb-3">Profil CEO</h2>
 
             @if ($fotoCeo)
-                <a href="{{ $fotoCeo->file }}" target="_blank" rel="noopener" class="d-block mb-3 bingkai-potret">
+                <a href="{{ $fotoCeo->url_asli }}" target="_blank" rel="noopener" class="d-block mb-3 bingkai-potret">
                     <img src="{{ $fotoCeo->gambar(600) }}" alt="Foto {{ $startup->nama_ceo }}"
                          loading="lazy" referrerpolicy="no-referrer"
                          onerror="this.closest('.bingkai-potret').remove()">
@@ -491,7 +508,7 @@
         </div>
 
         {{-- Tim inti --}}
-        <div class="panel p-4 mb-4">
+        <div class="panel reveal p-4 mb-4" id="tim" style="--tunda: 60ms;">
             <h2 class="h6 mb-3">
                 Tim inti
                 <span class="fw-normal small" style="color: var(--redup);">
@@ -499,23 +516,24 @@
                 </span>
             </h2>
 
-            @forelse ($startup->anggotaTim as $anggota)
-                <div class="d-flex align-items-center gap-2 py-2 {{ ! $loop->last ? 'border-bottom' : '' }}"
-                     style="border-color: var(--garis) !important;">
-                    <div class="inisial">{{ mb_substr($anggota->nama, 0, 1) }}</div>
-                    <div class="flex-grow-1">
-                        <div class="small fw-semibold">{{ $anggota->nama }}</div>
-                        <div class="small" style="color: var(--redup);">
-                            {{ $anggota->jabatan ?? '—' }}
-                            @if ($anggota->jenis_kelamin)
-                                &middot; {{ $anggota->jenis_kelamin }}
-                            @endif
-                        </div>
+            @if ($startup->anggotaTim->isEmpty())
+                <p class="small mb-0" style="color: var(--redup);">Data tim belum tercatat.</p>
+            @else
+                @php
+                    $lakiLaki = $startup->anggotaTim->where('jenis_kelamin', 'L')->count();
+                    $perempuan = $startup->anggotaTim->where('jenis_kelamin', 'P')->count();
+                @endphp
+                <div class="d-flex gap-4">
+                    <div>
+                        <div class="angka-banding">{{ $lakiLaki }}</div>
+                        <div class="label-kecil">Laki-laki</div>
+                    </div>
+                    <div>
+                        <div class="angka-banding">{{ $perempuan }}</div>
+                        <div class="label-kecil">Perempuan</div>
                     </div>
                 </div>
-            @empty
-                <p class="small mb-0" style="color: var(--redup);">Data tim belum tercatat.</p>
-            @endforelse
+            @endif
 
             <hr class="my-3" style="border-color: var(--garis);">
 
@@ -531,7 +549,7 @@
         </div>
 
         {{-- Legalitas --}}
-        <div class="panel p-4 mb-4">
+        <div class="panel reveal p-4 mb-4" id="legalitas" style="--tunda: 120ms;">
             <h2 class="h6 mb-3">Legalitas</h2>
 
             @forelse ($startup->legalitas->groupBy('tipe') as $tipe => $daftar)
@@ -541,7 +559,7 @@
                 <div class="d-flex flex-wrap gap-2">
                     @foreach ($daftar as $item)
                         @if ($item->file)
-                            <a href="{{ $item->file }}" target="_blank" rel="noopener" class="tag tag-tautan">
+                            <a href="{{ $item->url_asli }}" target="_blank" rel="noopener" class="tag tag-tautan">
                                 {{ $item->nama }} <i class="bi bi-box-arrow-up-right ms-1"></i>
                             </a>
                         @else
@@ -555,11 +573,11 @@
         </div>
 
         {{-- Berkas --}}
-        <div class="panel p-4 mb-4">
+        <div class="panel reveal p-4 mb-4" id="berkas" style="--tunda: 180ms;">
             <h2 class="h6 mb-3">Berkas &amp; dokumentasi</h2>
 
             @forelse ($berkas as $file)
-                <a href="{{ $file->file }}" target="_blank" rel="noopener"
+                <a href="{{ $file->url_asli }}" target="_blank" rel="noopener"
                    class="d-flex align-items-center gap-2 py-2 text-decoration-none {{ ! $loop->last ? 'border-bottom' : '' }}"
                    style="border-color: var(--garis) !important; color: var(--navy);">
                     <i class="bi bi-file-earmark-text" style="color: var(--biru);"></i>
@@ -574,7 +592,7 @@
         </div>
 
         {{-- Alamat & peta --}}
-        <div class="panel p-4">
+        <div class="panel reveal p-4" id="lokasi" style="--tunda: 240ms;">
             <h2 class="h6 mb-3">Lokasi usaha</h2>
 
             @php

@@ -23,58 +23,57 @@ class StartupImporter
 {
     /** Peta: nama kolom internal => daftar kata kunci pada header Excel. */
     private const PETA_KOLOM = [
-        'nama_ceo'              => ['nama ceo'],
-        'tanggal_lahir'         => ['tanggal lahir'],
-        'jenis_kelamin'         => ['jenis kelamin'],
-        'pendidikan'            => ['pendidikan terakhir'],
-        'asal_sekolah'          => ['asal sekolah'],
-        'jurusan'               => ['jurusan', 'program studi'],
-        'semester'              => ['semester'],
-        'tahun_lulus'           => ['tahun lulus'],
-        'alamat_rumah'          => ['alamat rumah'],
-        'no_wa'                 => ['no kontak', 'whatsapp'],
-        'skema_program'         => ['pilihan program'],
-        'nama_startup'          => ['nama usaha'],
-        'judul_proposal'        => ['judul proposal'],
-        'mulai_usaha'           => ['mulai usaha'],
-        'tim_inti'              => ['tim inti manajemen'],
-        'nama_produk'           => ['nama produk'],
-        'deskripsi_produk'      => ['deskripsi produk'],
-        'alamat_usaha'          => ['alamat usaha'],
-        'bidang_usaha'          => ['bidang usaha'],
-        'legalitas_usaha'       => ['legalitas usaha yang dimiliki'],
-        'file_legalitas_usaha'  => ['upload berkas legalitas usaha'],
-        'legalitas_produk'      => ['legalitas produk yang dimiliki'],
+        'nama_ceo' => ['nama ceo'],
+        'tanggal_lahir' => ['tanggal lahir'],
+        'jenis_kelamin' => ['jenis kelamin'],
+        'pendidikan' => ['pendidikan terakhir'],
+        'asal_sekolah' => ['asal sekolah'],
+        'jurusan' => ['jurusan', 'program studi'],
+        'semester' => ['semester'],
+        'tahun_lulus' => ['tahun lulus'],
+        'alamat_rumah' => ['alamat rumah'],
+        'no_wa' => ['no kontak', 'whatsapp'],
+        'skema_program' => ['pilihan program'],
+        'nama_startup' => ['nama usaha'],
+        'judul_proposal' => ['judul proposal'],
+        'mulai_usaha' => ['mulai usaha'],
+        'tim_inti' => ['tim inti manajemen'],
+        'nama_produk' => ['nama produk'],
+        'deskripsi_produk' => ['deskripsi produk'],
+        'alamat_usaha' => ['alamat usaha'],
+        'bidang_usaha' => ['bidang usaha'],
+        'legalitas_usaha' => ['legalitas usaha yang dimiliki'],
+        'file_legalitas_usaha' => ['upload berkas legalitas usaha'],
+        'legalitas_produk' => ['legalitas produk yang dimiliki'],
         'file_legalitas_produk' => ['upload berkas legalitas produk'],
-        'tk_pria'               => ['tenaga kerja (pria)'],
-        'tk_wanita'             => ['tenaga kerja (wanita)'],
-        'modal_awal'            => ['modal awal usaha'],
-        'sumber_modal'          => ['sumber modal'],
-        'asal_invensi'          => ['asal invensi produk'],
-        'dosen_pembimbing'      => ['nama dosen'],
-        'kapasitas_produksi'    => ['kapasitas produksi'],
-        'harga_produk'          => ['harga produk'],
-        'jangkauan_pasar'       => ['jangkauan pasar'],
-        'omzet_2025'            => ['omzet tahun 2025'],
-        'omzet_2026'            => ['omzet jan'],
-        'permasalahan'          => ['permasalahan utama'],
-        'rencana'               => ['rencana pengembangan'],
-        'file_proposal'         => ['upload proposal'],
-        'file_foto_ceo'         => ['upload foto ceo'],
-        'file_logo'             => ['upload logo'],
-        'file_foto_produk'      => ['foto produk'],
-        'file_company_profile'  => ['company profile'],
-        'file_bmc'              => ['bmc'],
+        'tk_pria' => ['tenaga kerja (pria)'],
+        'tk_wanita' => ['tenaga kerja (wanita)'],
+        'modal_awal' => ['modal awal usaha'],
+        'sumber_modal' => ['sumber modal'],
+        'asal_invensi' => ['asal invensi produk'],
+        'dosen_pembimbing' => ['nama dosen'],
+        'kapasitas_produksi' => ['kapasitas produksi'],
+        'harga_produk' => ['harga produk'],
+        'jangkauan_pasar' => ['jangkauan pasar'],
+        'omzet_2025' => ['omzet tahun 2025'],
+        'omzet_2026' => ['omzet jan'],
+        'permasalahan' => ['permasalahan utama'],
+        'rencana' => ['rencana pengembangan'],
+        'file_proposal' => ['upload proposal'],
+        'file_foto_ceo' => ['upload foto ceo'],
+        'file_logo' => ['upload logo'],
+        'file_foto_produk' => ['foto produk'],
+        'file_company_profile' => ['company profile'],
+        'file_bmc' => ['bmc'],
     ];
 
     /** Peta kolom file => kategori pada tabel dokumentasi. */
     private const PETA_DOKUMEN = [
-        'file_proposal'        => 'proposal',
-        'file_foto_ceo'        => 'foto_ceo',
-        'file_logo'            => 'logo_startup',
-        'file_foto_produk'     => 'foto_produk',
+        'file_foto_ceo' => 'foto_ceo',
+        'file_logo' => 'logo_startup',
+        'file_foto_produk' => 'foto_produk',
         'file_company_profile' => 'company_profile',
-        'file_bmc'             => 'bmc',
+        'file_bmc' => 'bmc',
     ];
 
     private array $indeks = [];
@@ -115,7 +114,8 @@ class StartupImporter
 
             if ($namaStartup === null || $namaCeo === null) {
                 $this->gagal++;
-                $this->catatan[] = 'Baris ' . ($nomor + 2) . ': nama usaha atau nama CEO kosong.';
+                $this->catatan[] = 'Baris '.($nomor + 2).': nama usaha atau nama CEO kosong.';
+
                 continue;
             }
 
@@ -124,22 +124,22 @@ class StartupImporter
                 $this->berhasil++;
             } catch (\Throwable $e) {
                 $this->gagal++;
-                $this->catatan[] = 'Baris ' . ($nomor + 2) . " ({$namaStartup}): " . $e->getMessage();
+                $this->catatan[] = 'Baris '.($nomor + 2)." ({$namaStartup}): ".$e->getMessage();
             }
         }
 
         ImportLog::create([
-            'nama_file'       => $namaFile,
-            'batch'           => $batch,
+            'nama_file' => $namaFile,
+            'batch' => $batch,
             'jumlah_berhasil' => $this->berhasil,
-            'jumlah_gagal'    => $this->gagal,
-            'catatan'         => $this->catatan ? implode("\n", array_slice($this->catatan, 0, 50)) : null,
+            'jumlah_gagal' => $this->gagal,
+            'catatan' => $this->catatan ? implode("\n", array_slice($this->catatan, 0, 50)) : null,
         ]);
 
         return [
             'berhasil' => $this->berhasil,
-            'gagal'    => $this->gagal,
-            'catatan'  => $this->catatan,
+            'gagal' => $this->gagal,
+            'catatan' => $this->catatan,
         ];
     }
 
@@ -169,59 +169,59 @@ class StartupImporter
         $startup = Startup::updateOrCreate(
             ['nama_startup' => $namaStartup, 'nama_ceo' => $namaCeo],
             [
-                'batch'                 => $batch,
-                'tahun_program'         => $tahun,
-                'skema_program'         => ParserData::teks($this->ambil($data, 'skema_program'), 50),
+                'batch' => $batch,
+                'tahun_program' => $tahun,
+                'skema_program' => ParserData::teks($this->ambil($data, 'skema_program'), 50),
 
-                'tanggal_lahir_ceo'     => ParserData::tanggal($this->ambil($data, 'tanggal_lahir')),
-                'jenis_kelamin_ceo'     => ParserData::gender($this->ambil($data, 'jenis_kelamin')) ?? 'L',
-                'pendidikan_terakhir'   => ParserData::teks($this->ambil($data, 'pendidikan'), 50),
-                'asal_sekolah'          => ParserData::teks($this->ambil($data, 'asal_sekolah'), 200),
-                'jurusan'               => ParserData::teks($this->ambil($data, 'jurusan'), 200),
-                'semester'              => ParserData::teks($this->ambil($data, 'semester'), 20),
-                'tahun_lulus'           => ParserData::teks($this->ambil($data, 'tahun_lulus'), 10),
+                'tanggal_lahir_ceo' => ParserData::tanggal($this->ambil($data, 'tanggal_lahir')),
+                'jenis_kelamin_ceo' => ParserData::gender($this->ambil($data, 'jenis_kelamin')) ?? 'L',
+                'pendidikan_terakhir' => ParserData::teks($this->ambil($data, 'pendidikan'), 50),
+                'asal_sekolah' => ParserData::teks($this->ambil($data, 'asal_sekolah'), 200),
+                'jurusan' => ParserData::teks($this->ambil($data, 'jurusan'), 200),
+                'semester' => ParserData::teks($this->ambil($data, 'semester'), 20),
+                'tahun_lulus' => ParserData::teks($this->ambil($data, 'tahun_lulus'), 10),
 
-                'alamat_rumah'          => $alamatRumah,
-                'alamat_usaha'          => $alamatUsaha,
-                'kota'                  => ParserData::kota($alamatUntukWilayah),
-                'provinsi'              => ParserData::provinsi($alamatUntukWilayah),
-                'no_wa'                 => ParserData::teks($this->ambil($data, 'no_wa'), 40),
+                'alamat_rumah' => $alamatRumah,
+                'alamat_usaha' => $alamatUsaha,
+                'kota' => ParserData::kota($alamatUntukWilayah),
+                'provinsi' => ParserData::provinsi($alamatUntukWilayah),
+                'no_wa' => ParserData::teks($this->ambil($data, 'no_wa'), 40),
 
-                'bidang_usaha_id'       => $bidangUsahaId,
-                'mulai_usaha'           => ParserData::tanggal($this->ambil($data, 'mulai_usaha')),
-                'nama_produk'           => ParserData::teks($this->ambil($data, 'nama_produk'), 255),
-                'deskripsi_produk'      => ParserData::teks($this->ambil($data, 'deskripsi_produk')),
-                'judul_proposal'        => ParserData::teks($this->ambil($data, 'judul_proposal')),
+                'bidang_usaha_id' => $bidangUsahaId,
+                'mulai_usaha' => ParserData::tanggal($this->ambil($data, 'mulai_usaha')),
+                'nama_produk' => ParserData::teks($this->ambil($data, 'nama_produk'), 255),
+                'deskripsi_produk' => ParserData::teks($this->ambil($data, 'deskripsi_produk')),
+                'judul_proposal' => ParserData::teks($this->ambil($data, 'judul_proposal')),
 
-                'asal_invensi'          => ParserData::asalInvensi($this->ambil($data, 'asal_invensi')),
-                'keterangan_invensi'    => ParserData::teks($this->ambil($data, 'asal_invensi')),
+                'asal_invensi' => ParserData::asalInvensi($this->ambil($data, 'asal_invensi')),
+                'keterangan_invensi' => ParserData::teks($this->ambil($data, 'asal_invensi')),
                 'nama_dosen_pembimbing' => ParserData::teks($this->ambil($data, 'dosen_pembimbing'), 255),
 
-                'tenaga_kerja_l'        => ParserData::bilangan($this->ambil($data, 'tk_pria')),
-                'tenaga_kerja_p'        => ParserData::bilangan($this->ambil($data, 'tk_wanita')),
+                'tenaga_kerja_l' => ParserData::bilangan($this->ambil($data, 'tk_pria')),
+                'tenaga_kerja_p' => ParserData::bilangan($this->ambil($data, 'tk_wanita')),
 
-                'modal_awal'            => ParserData::uang($this->ambil($data, 'modal_awal')),
-                'modal_awal_teks'       => ParserData::teks($this->ambil($data, 'modal_awal'), 255),
-                'sumber_modal'          => ParserData::teks($this->ambil($data, 'sumber_modal'), 100),
+                'modal_awal' => ParserData::uang($this->ambil($data, 'modal_awal')),
+                'modal_awal_teks' => ParserData::teks($this->ambil($data, 'modal_awal'), 255),
+                'sumber_modal' => ParserData::teks($this->ambil($data, 'sumber_modal'), 100),
 
-                'kapasitas_produksi'    => ParserData::teks($this->ambil($data, 'kapasitas_produksi')),
-                'harga_produk'          => ParserData::teks($this->ambil($data, 'harga_produk')),
-                'jangkauan_pasar'       => ParserData::teks($this->ambil($data, 'jangkauan_pasar'), 100),
+                'kapasitas_produksi' => ParserData::teks($this->ambil($data, 'kapasitas_produksi')),
+                'harga_produk' => ParserData::teks($this->ambil($data, 'harga_produk')),
+                'jangkauan_pasar' => ParserData::teks($this->ambil($data, 'jangkauan_pasar'), 100),
 
-                'omset_awal'               => $omsetAwal,
-                'omset_awal_teks'          => ParserData::teks($omzet2025, 255),
-                'periode_omset_awal'       => $omsetAwal !== null ? 'Tahun 2025' : null,
-                'bulan_periode_awal'       => $omsetAwal !== null ? 12 : null,
+                'omset_awal' => $omsetAwal,
+                'omset_awal_teks' => ParserData::teks($omzet2025, 255),
+                'periode_omset_awal' => $omsetAwal !== null ? 'Tahun 2025' : null,
+                'bulan_periode_awal' => $omsetAwal !== null ? 12 : null,
 
-                'omset_pembanding'         => $omsetPembanding,
-                'omset_pembanding_teks'    => ParserData::teks($omzet2026, 255),
+                'omset_pembanding' => $omsetPembanding,
+                'omset_pembanding_teks' => ParserData::teks($omzet2026, 255),
                 'periode_omset_pembanding' => $omsetPembanding !== null ? 'Jan-Mar 2026' : null,
                 'bulan_periode_pembanding' => $omsetPembanding !== null ? 3 : null,
 
-                'permasalahan_utama'    => ParserData::teks($this->ambil($data, 'permasalahan')),
-                'rencana_pengembangan'  => ParserData::teks($this->ambil($data, 'rencana')),
+                'permasalahan_utama' => ParserData::teks($this->ambil($data, 'permasalahan')),
+                'rencana_pengembangan' => ParserData::teks($this->ambil($data, 'rencana')),
 
-                'status'                => 'aktif',
+                'status' => 'aktif',
             ]
         );
 
@@ -236,7 +236,7 @@ class StartupImporter
         Legalitas::where('startup_id', $startup->id)->delete();
 
         $pasangan = [
-            'usaha'  => ['legalitas_usaha', 'file_legalitas_usaha'],
+            'usaha' => ['legalitas_usaha', 'file_legalitas_usaha'],
             'produk' => ['legalitas_produk', 'file_legalitas_produk'],
         ];
 
@@ -247,9 +247,9 @@ class StartupImporter
             foreach ($daftar as $nama) {
                 Legalitas::create([
                     'startup_id' => $startup->id,
-                    'tipe'       => $tipe,
-                    'nama'       => mb_substr($nama, 0, 150),
-                    'file'       => $file,
+                    'tipe' => $tipe,
+                    'nama' => mb_substr($nama, 0, 150),
+                    'file' => $file,
                 ]);
             }
         }
@@ -261,9 +261,9 @@ class StartupImporter
 
         foreach (ParserData::anggotaTim($this->ambil($data, 'tim_inti')) as $anggota) {
             AnggotaTim::create([
-                'startup_id'    => $startup->id,
-                'nama'          => $anggota['nama'],
-                'jabatan'       => $anggota['jabatan'],
+                'startup_id' => $startup->id,
+                'nama' => $anggota['nama'],
+                'jabatan' => $anggota['jabatan'],
                 'jenis_kelamin' => $anggota['jenis_kelamin'],
             ]);
         }
@@ -282,9 +282,9 @@ class StartupImporter
 
             Dokumentasi::create([
                 'startup_id' => $startup->id,
-                'kategori'   => $kategori,
-                'judul'      => null,
-                'file'       => $file,
+                'kategori' => $kategori,
+                'judul' => null,
+                'file' => $file,
             ]);
         }
     }

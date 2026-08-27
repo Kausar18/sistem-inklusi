@@ -29,8 +29,8 @@ class SetupSementaraController extends Controller
         $this->pastikanTokenValid($token);
 
         $data = $request->validate([
-            'name'     => ['required', 'string', 'max:150'],
-            'email'    => ['required', 'email', 'unique:users,email'],
+            'name' => ['required', 'string', 'max:150'],
+            'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
         ]);
 

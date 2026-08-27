@@ -20,13 +20,13 @@ return new class extends Migration
         Schema::table('startups', function (Blueprint $table) {
             $table->decimal('omset_pembanding', 18, 2)->nullable()->after('periode_omset_awal');
             $table->string('omset_pembanding_teks', 255)->nullable()->after('omset_pembanding')
-                  ->comment('nilai asli dari Excel');
+                ->comment('nilai asli dari Excel');
             $table->string('periode_omset_pembanding', 50)->nullable()->after('omset_pembanding_teks')
-                  ->comment('mis. "Jan-Mar 2026"');
+                ->comment('mis. "Jan-Mar 2026"');
             $table->unsignedTinyInteger('bulan_periode_awal')->nullable()->after('periode_omset_pembanding')
-                  ->comment('panjang periode baseline dalam bulan');
+                ->comment('panjang periode baseline dalam bulan');
             $table->unsignedTinyInteger('bulan_periode_pembanding')->nullable()->after('bulan_periode_awal')
-                  ->comment('panjang periode pembanding dalam bulan');
+                ->comment('panjang periode pembanding dalam bulan');
         });
     }
 

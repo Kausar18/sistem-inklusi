@@ -33,7 +33,7 @@ class BidangUsahaController extends Controller
     public function update(Request $request, BidangUsaha $bidangUsaha): RedirectResponse
     {
         $data = $request->validate([
-            'nama_bidang' => ['required', 'string', 'max:150', 'unique:bidang_usaha,nama_bidang,' . $bidangUsaha->id],
+            'nama_bidang' => ['required', 'string', 'max:150', 'unique:bidang_usaha,nama_bidang,'.$bidangUsaha->id],
         ], [], [
             'nama_bidang' => 'nama bidang usaha',
         ]);

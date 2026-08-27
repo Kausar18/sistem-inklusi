@@ -22,7 +22,7 @@
 {{-- ======================== KARTU STATISTIK ======================== --}}
 <div class="row g-3 mb-4">
     <div class="col-6 col-lg-3">
-        <div class="statistik" style="--aksen: var(--biru);">
+        <div class="statistik masuk-halaman" style="--aksen: var(--biru); --tunda: 0ms;">
             <div class="statistik-label">Startup</div>
             <div class="statistik-angka">{{ number_format($statistik['jumlah'], 0, ',', '.') }}</div>
             <div class="statistik-catatan">{{ $statistik['invensi_ipb'] }} melibatkan invensi IPB</div>
@@ -30,7 +30,7 @@
     </div>
 
     <div class="col-6 col-lg-3">
-        <div class="statistik" style="--aksen: var(--teal);">
+        <div class="statistik masuk-halaman" style="--aksen: var(--teal); --tunda: 60ms;">
             <div class="statistik-label">Total omset awal</div>
             <div class="statistik-angka">
                 @php $miliar = $statistik['omset'] / 1_000_000_000; @endphp
@@ -41,7 +41,7 @@
     </div>
 
     <div class="col-6 col-lg-3">
-        <div class="statistik" style="--aksen: var(--cyan);">
+        <div class="statistik masuk-halaman" style="--aksen: var(--cyan); --tunda: 120ms;">
             <div class="statistik-label">Tenaga kerja</div>
             <div class="statistik-angka">
                 {{ number_format($statistik['tenaga_l'] + $statistik['tenaga_p'], 0, ',', '.') }}
@@ -53,7 +53,7 @@
     </div>
 
     <div class="col-6 col-lg-3">
-        <div class="statistik" style="--aksen: var(--amber);">
+        <div class="statistik masuk-halaman" style="--aksen: var(--amber); --tunda: 180ms;">
             <div class="statistik-label">Sebaran wilayah</div>
             <div class="statistik-angka">{{ $statistik['wilayah'] }}</div>
             <div class="statistik-catatan">Kota/kabupaten terdata</div>
@@ -200,7 +200,7 @@
 
             <div class="col-md-6 col-xl-4">
                 <a href="{{ route('startup.show', $startup) }}" class="tautan-kartu">
-                <article class="kartu-startup">
+                <article class="kartu-startup reveal" style="--tunda: {{ ($loop->index % 3) * 80 }}ms">
 
                     <div class="kartu-kepala">
                         @if ($logo && $logo->url_gambar)

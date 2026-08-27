@@ -14,11 +14,11 @@ class StartupCrudTest extends TestCase
     private function dataMinimal(array $override = []): array
     {
         return array_merge([
-            'nama_startup'      => 'Startup Uji',
-            'nama_ceo'          => 'CEO Uji',
+            'nama_startup' => 'Startup Uji',
+            'nama_ceo' => 'CEO Uji',
             'jenis_kelamin_ceo' => 'L',
-            'asal_invensi'      => 'Mandiri',
-            'status'            => 'aktif',
+            'asal_invensi' => 'Mandiri',
+            'status' => 'aktif',
         ], $override);
     }
 

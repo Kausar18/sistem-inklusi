@@ -13,7 +13,7 @@ class Monitoring extends Model
 
     protected $casts = [
         'tanggal' => 'date',
-        'omzet'   => 'decimal:2',
+        'omzet' => 'decimal:2',
     ];
 
     public function startup(): BelongsTo

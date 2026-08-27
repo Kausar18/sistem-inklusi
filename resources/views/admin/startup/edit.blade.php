@@ -161,7 +161,6 @@
                 <option value="foto_produk">Foto produk</option>
                 <option value="company_profile">Company profile</option>
                 <option value="bmc">BMC</option>
-                <option value="proposal">Proposal</option>
                 <option value="infografis">Infografis</option>
                 <option value="lainnya">Lainnya</option>
             </select>

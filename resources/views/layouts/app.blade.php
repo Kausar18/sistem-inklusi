@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('judul', 'Sistem Inklusi') &middot; LPA2I</title>
+    <title>@yield('judul', 'Sistem Inkubasi') &middot; LPA2I</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
@@ -25,6 +25,8 @@
             --garis:     #E2E7F0;
             --redup:     #64748B;
         }
+
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', Arial, sans-serif;
@@ -53,8 +55,9 @@
             background: linear-gradient(115deg, var(--navy) 0%, var(--biru) 62%, #1A63C4 100%);
             color: #fff;
             box-shadow: 0 1px 0 rgba(255,255,255,.08), 0 10px 28px rgba(11,37,69,.16);
-            position: relative;
-            z-index: 10;
+            position: sticky;
+            top: 0;
+            z-index: 1030;
         }
 
         .kop .navbar-brand { color: #fff; font-weight: 800; letter-spacing: -.02em; }
@@ -366,6 +369,46 @@
         .pagination svg { width: 1rem; height: 1rem; }
 
         /* ------------------------------------------------ Halaman detail */
+
+        /* Navigasi cepat antar bagian di halaman detail startup */
+        .nav-bagian {
+            position: sticky;
+            top: 64px;
+            z-index: 20;
+            background: rgba(255,255,255,.92);
+            backdrop-filter: blur(6px);
+            border: 1px solid var(--garis);
+            border-radius: .875rem;
+            padding: .4rem;
+        }
+
+        .nav-bagian-scroll {
+            display: flex;
+            gap: .3rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-bagian-scroll::-webkit-scrollbar { display: none; }
+
+        .nav-bagian a {
+            flex: 0 0 auto;
+            padding: .4rem 1rem;
+            border-radius: 999px;
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--redup);
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background .15s ease, color .15s ease;
+        }
+
+        .nav-bagian a:hover { background: var(--biru-muda); color: var(--biru); }
+
+        #kinerja, #produk, #pendampingan, #ceo, #tim, #legalitas, #berkas, #lokasi {
+            scroll-margin-top: 120px;
+        }
+
         .logo-besar {
             width: 132px;
             height: 132px;
@@ -846,6 +889,19 @@
 
         .reveal.tanpa-transisi { transition: none; }
 
+        /* Animasi masuk saat halaman pertama dibuka (beda dari .reveal yang
+           menunggu discroll) — dipakai di halaman yang isinya berupa daftar/
+           grid, supaya terasa hidup begitu halaman muncul. */
+        @keyframes masukHalaman {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: none; }
+        }
+
+        .masuk-halaman {
+            animation: masukHalaman .5s ease both;
+            animation-delay: var(--tunda, 0ms);
+        }
+
         @media (prefers-reduced-motion: reduce) {
             .kartu-startup { transition: none; }
             .kartu-startup:hover { transform: none; }
@@ -855,6 +911,7 @@
             .bingkai-potret:hover img { transform: none; }
 
             .reveal { opacity: 1; transform: none; transition: none; }
+            .masuk-halaman { animation: none; }
         }
     </style>
     <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
@@ -865,7 +922,7 @@
     <div class="container py-2">
         <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('beranda') }}">
             <span class="merek-ikon"><i class="bi bi-diagram-3-fill"></i></span>
-            Sistem Inklusi
+            Sistem Inkubasi
             <span class="lencana-kop d-none d-sm-inline">LPA2I</span>
         </a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#menuUtama">
@@ -920,7 +977,7 @@
 
 <footer class="py-4 mt-2">
     <div class="container text-center small" style="color: var(--redup);">
-        Sistem Inklusi &middot; Lembaga Pengembangan Agribisnis dan Inkubator Inovasi
+        Sistem Inkubasi &middot; Lembaga Pengembangan Agribisnis dan Inkubator Inovasi
     </div>
 </footer>
 

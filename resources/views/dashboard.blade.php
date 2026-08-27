@@ -189,6 +189,22 @@
 
     const rapiAngka = (n) => new Intl.NumberFormat('id-ID').format(n);
 
+    // Persentase satu nilai terhadap total seluruh nilai dalam dataset.
+    const hitungPersen = (nilai, semuaNilai) => {
+        const total = semuaNilai.reduce((a, b) => a + b, 0);
+        return total > 0 ? Math.round((nilai / total) * 100) : 0;
+    };
+
+    // Label legenda donat: tambahkan persentase di belakang nama, mis. "Laki-laki (62%)".
+    const legendaPersen = (chart) => {
+        const dataset = chart.data.datasets[0];
+        return chart.data.labels.map((label, i) => ({
+            text: `${label} (${hitungPersen(dataset.data[i], dataset.data)}%)`,
+            fillStyle: dataset.backgroundColor[i],
+            index: i,
+        }));
+    };
+
     // -------------------------------------------------- Sebaran bidang usaha
     const bidang = @json($bidangUsaha);
 
@@ -208,7 +224,14 @@
             indexAxis: 'y',
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: (k) => ` ${rapiAngka(k.parsed.x)} startup (${hitungPersen(k.parsed.x, k.dataset.data)}%)`,
+                    },
+                },
+            },
             scales: {
                 x: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: garis } },
                 y: { grid: { display: false } },
@@ -235,7 +258,14 @@
             indexAxis: 'y',
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: (k) => ` ${rapiAngka(k.parsed.x)} startup (${hitungPersen(k.parsed.x, k.dataset.data)}%)`,
+                    },
+                },
+            },
             scales: {
                 x: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: garis } },
                 y: { grid: { display: false } },
@@ -261,10 +291,10 @@
             maintainAspectRatio: false,
             cutout: '62%',
             plugins: {
-                legend: { position: 'bottom' },
+                legend: { position: 'bottom', labels: { generateLabels: legendaPersen } },
                 tooltip: {
                     callbacks: {
-                        label: (k) => ` ${k.label}: ${rapiAngka(k.parsed)} orang`,
+                        label: (k) => ` ${k.label}: ${rapiAngka(k.parsed)} orang (${hitungPersen(k.parsed, k.dataset.data)}%)`,
                     },
                 },
             },
@@ -289,9 +319,11 @@
             maintainAspectRatio: false,
             cutout: '62%',
             plugins: {
-                legend: { position: 'bottom' },
+                legend: { position: 'bottom', labels: { generateLabels: legendaPersen } },
                 tooltip: {
-                    callbacks: { label: (k) => ` ${k.label}: ${k.parsed} startup` },
+                    callbacks: {
+                        label: (k) => ` ${k.label}: ${k.parsed} startup (${hitungPersen(k.parsed, k.dataset.data)}%)`,
+                    },
                 },
             },
         },
@@ -315,9 +347,11 @@
             maintainAspectRatio: false,
             cutout: '62%',
             plugins: {
-                legend: { position: 'bottom' },
+                legend: { position: 'bottom', labels: { generateLabels: legendaPersen } },
                 tooltip: {
-                    callbacks: { label: (k) => ` ${k.label}: ${k.parsed} startup` },
+                    callbacks: {
+                        label: (k) => ` ${k.label}: ${k.parsed} startup (${hitungPersen(k.parsed, k.dataset.data)}%)`,
+                    },
                 },
             },
         },
@@ -389,7 +423,14 @@
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: (k) => ` ${rapiAngka(k.parsed.y)} startup (${hitungPersen(k.parsed.y, k.dataset.data)}%)`,
+                    },
+                },
+            },
             scales: {
                 x: { grid: { display: false } },
                 y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: garis } },

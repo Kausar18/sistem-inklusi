@@ -14,7 +14,7 @@ return new class extends Migration
 
             $table->string('nama_target', 255);
             $table->enum('status', ['belum_tercapai', 'proses', 'tercapai'])
-                  ->default('belum_tercapai');
+                ->default('belum_tercapai');
             $table->text('keterangan')->nullable();
 
             $table->timestamps();

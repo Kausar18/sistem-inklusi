@@ -14,8 +14,8 @@ class TargetOutputController extends Controller
     {
         $data = $request->validate([
             'nama_target' => ['required', 'string', 'max:255'],
-            'status'      => ['required', 'in:belum_tercapai,proses,tercapai'],
-            'keterangan'  => ['nullable', 'string'],
+            'status' => ['required', 'in:belum_tercapai,proses,tercapai'],
+            'keterangan' => ['nullable', 'string'],
         ], [], [
             'nama_target' => 'nama target',
         ]);

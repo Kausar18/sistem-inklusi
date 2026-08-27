@@ -33,7 +33,7 @@ class ImportStartupCommand extends Command
         }
 
         if (! file_exists($file)) {
-            $this->error('File tidak ditemukan: ' . $this->argument('file'));
+            $this->error('File tidak ditemukan: '.$this->argument('file'));
 
             return self::FAILURE;
         }
@@ -45,7 +45,7 @@ class ImportStartupCommand extends Command
         if ($this->option('list')) {
             $this->info('Daftar sheet dalam file:');
             foreach ($daftarSheet as $nama) {
-                $this->line('  - ' . $nama);
+                $this->line('  - '.$nama);
             }
 
             return self::SUCCESS;
@@ -55,7 +55,7 @@ class ImportStartupCommand extends Command
 
         if (! in_array($sheet, $daftarSheet, true)) {
             $this->error("Sheet \"{$sheet}\" tidak ditemukan.");
-            $this->line('Sheet yang tersedia: ' . implode(', ', $daftarSheet));
+            $this->line('Sheet yang tersedia: '.implode(', ', $daftarSheet));
 
             return self::FAILURE;
         }
@@ -75,12 +75,12 @@ class ImportStartupCommand extends Command
         $spreadsheet->disconnectWorksheets();
         unset($spreadsheet);
 
-        $this->info('Jumlah baris terbaca (termasuk header): ' . count($baris));
+        $this->info('Jumlah baris terbaca (termasuk header): '.count($baris));
 
         try {
             $hasil = $importer->jalankan($baris, $batch, $tahun, basename($file));
         } catch (\Throwable $e) {
-            $this->error('Import gagal: ' . $e->getMessage());
+            $this->error('Import gagal: '.$e->getMessage());
 
             return self::FAILURE;
         }
@@ -93,7 +93,7 @@ class ImportStartupCommand extends Command
             $this->newLine();
             $this->line('Detail baris yang gagal:');
             foreach (array_slice($hasil['catatan'], 0, 20) as $catatan) {
-                $this->line('  - ' . $catatan);
+                $this->line('  - '.$catatan);
             }
         }
 

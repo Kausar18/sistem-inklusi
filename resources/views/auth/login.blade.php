@@ -8,7 +8,7 @@
         <div class="panel p-4 p-md-5">
             <h1 class="h4 mb-1">Masuk</h1>
             <p class="small mb-4" style="color: var(--redup);">
-                Khusus tim pengelola Sistem Inklusi.
+                Khusus tim pengelola Sistem Inkubasi.
             </p>
 
             @if ($errors->any())

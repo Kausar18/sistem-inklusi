@@ -26,16 +26,16 @@ class StartupController extends Controller
             ->withQueryString();
 
         return view('admin.startup.index', [
-            'startups'     => $startups,
+            'startups' => $startups,
             'daftarBidang' => BidangUsaha::orderBy('nama_bidang')->get(),
-            'daftarBatch'  => Startup::whereNotNull('batch')->distinct()->orderBy('batch')->pluck('batch'),
+            'daftarBatch' => Startup::whereNotNull('batch')->distinct()->orderBy('batch')->pluck('batch'),
         ]);
     }
 
     public function create(): View
     {
         return view('admin.startup.create', [
-            'startup'      => new Startup(),
+            'startup' => new Startup,
             'daftarBidang' => BidangUsaha::orderBy('nama_bidang')->get(),
         ]);
     }
@@ -54,7 +54,7 @@ class StartupController extends Controller
         $startup->load(['bidangUsaha', 'anggotaTim', 'legalitas', 'dokumentasi', 'targetOutput']);
 
         return view('admin.startup.edit', [
-            'startup'      => $startup,
+            'startup' => $startup,
             'daftarBidang' => BidangUsaha::orderBy('nama_bidang')->get(),
         ]);
     }

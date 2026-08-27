@@ -15,15 +15,15 @@ class StartupFactory extends Factory
     public function definition(): array
     {
         return [
-            'nama_startup'      => fake()->unique()->company(),
-            'nama_ceo'          => fake()->name(),
+            'nama_startup' => fake()->unique()->company(),
+            'nama_ceo' => fake()->name(),
             'jenis_kelamin_ceo' => fake()->randomElement(['L', 'P']),
-            'asal_invensi'      => 'Mandiri',
-            'status'            => 'aktif',
-            'tenaga_kerja_l'    => fake()->numberBetween(0, 10),
-            'tenaga_kerja_p'    => fake()->numberBetween(0, 10),
-            'omset_awal'        => fake()->numberBetween(0, 500_000_000),
-            'kota'              => fake()->city(),
+            'asal_invensi' => 'Mandiri',
+            'status' => 'aktif',
+            'tenaga_kerja_l' => fake()->numberBetween(0, 10),
+            'tenaga_kerja_p' => fake()->numberBetween(0, 10),
+            'omset_awal' => fake()->numberBetween(0, 500_000_000),
+            'kota' => fake()->city(),
         ];
     }
 }

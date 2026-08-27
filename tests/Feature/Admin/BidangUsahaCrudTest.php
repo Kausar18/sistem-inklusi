@@ -3,6 +3,7 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\BidangUsaha;
+use App\Models\Startup;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -46,7 +47,7 @@ class BidangUsahaCrudTest extends TestCase
     {
         $user = User::factory()->create();
         $bidang = BidangUsaha::create(['nama_bidang' => 'Masih Dipakai']);
-        \App\Models\Startup::factory()->create(['bidang_usaha_id' => $bidang->id]);
+        Startup::factory()->create(['bidang_usaha_id' => $bidang->id]);
 
         $this->actingAs($user)->delete("/admin/bidang-usaha/{$bidang->id}");
 

@@ -13,11 +13,11 @@ class AnggotaTimController extends Controller
     public function store(Request $request, Startup $startup): RedirectResponse
     {
         $data = $request->validate([
-            'nama'           => ['required', 'string', 'max:150'],
-            'jabatan'        => ['nullable', 'string', 'max:100'],
-            'jenis_kelamin'  => ['nullable', 'in:L,P'],
+            'nama' => ['required', 'string', 'max:150'],
+            'jabatan' => ['nullable', 'string', 'max:100'],
+            'jenis_kelamin' => ['nullable', 'in:L,P'],
         ], [], [
-            'nama'          => 'nama anggota',
+            'nama' => 'nama anggota',
             'jenis_kelamin' => 'jenis kelamin',
         ]);
 

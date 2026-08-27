@@ -12,15 +12,15 @@ class DashboardController extends Controller
     public function index(): View
     {
         return view('dashboard', [
-            'ringkasan'      => $this->ringkasan(),
-            'bidangUsaha'    => $this->sebaranBidangUsaha(),
-            'wilayah'        => $this->sebaranWilayah(),
-            'batch'          => $this->perbandinganBatch(),
-            'genderTenaga'   => $this->komposisiTenagaKerja(),
-            'genderCeo'      => $this->komposisiGenderCeo(),
-            'asalInvensi'    => $this->sebaranAsalInvensi(),
+            'ringkasan' => $this->ringkasan(),
+            'bidangUsaha' => $this->sebaranBidangUsaha(),
+            'wilayah' => $this->sebaranWilayah(),
+            'batch' => $this->perbandinganBatch(),
+            'genderTenaga' => $this->komposisiTenagaKerja(),
+            'genderCeo' => $this->komposisiGenderCeo(),
+            'asalInvensi' => $this->sebaranAsalInvensi(),
             'jangkauanPasar' => $this->sebaranJangkauanPasar(),
-            'omsetTeratas'   => $this->omsetTeratas(),
+            'omsetTeratas' => $this->omsetTeratas(),
         ]);
     }
 
@@ -28,15 +28,15 @@ class DashboardController extends Controller
     private function ringkasan(): array
     {
         return [
-            'startup'     => Startup::count(),
-            'omset'       => (float) Startup::sum('omset_awal'),
-            'tenaga_l'    => (int) Startup::sum('tenaga_kerja_l'),
-            'tenaga_p'    => (int) Startup::sum('tenaga_kerja_p'),
-            'wilayah'     => Startup::whereNotNull('kota')->distinct()->count('kota'),
-            'bidang'      => Startup::whereNotNull('bidang_usaha_id')->distinct()->count('bidang_usaha_id'),
+            'startup' => Startup::count(),
+            'omset' => (float) Startup::sum('omset_awal'),
+            'tenaga_l' => (int) Startup::sum('tenaga_kerja_l'),
+            'tenaga_p' => (int) Startup::sum('tenaga_kerja_p'),
+            'wilayah' => Startup::whereNotNull('kota')->distinct()->count('kota'),
+            'bidang' => Startup::whereNotNull('bidang_usaha_id')->distinct()->count('bidang_usaha_id'),
             'invensi_ipb' => Startup::whereIn('asal_invensi', ['IPB', 'Kombinasi'])->count(),
-            'ceo_p'       => Startup::where('jenis_kelamin_ceo', 'P')->count(),
-            'monitoring'  => DB::table('monitoring')->count(),
+            'ceo_p' => Startup::where('jenis_kelamin_ceo', 'P')->count(),
+            'monitoring' => DB::table('monitoring')->count(),
         ];
     }
 
@@ -81,9 +81,9 @@ class DashboardController extends Controller
             ->orderBy('batch')
             ->get()
             ->map(fn ($b) => [
-                'batch'  => $b->batch,
+                'batch' => $b->batch,
                 'jumlah' => (int) $b->jumlah,
-                'omset'  => (float) $b->omset,
+                'omset' => (float) $b->omset,
                 'tenaga' => (int) $b->tenaga,
             ])
             ->all();
@@ -93,8 +93,8 @@ class DashboardController extends Controller
     private function komposisiTenagaKerja(): array
     {
         return [
-            'Laki-laki'  => (int) Startup::sum('tenaga_kerja_l'),
-            'Perempuan'  => (int) Startup::sum('tenaga_kerja_p'),
+            'Laki-laki' => (int) Startup::sum('tenaga_kerja_l'),
+            'Perempuan' => (int) Startup::sum('tenaga_kerja_p'),
         ];
     }
 

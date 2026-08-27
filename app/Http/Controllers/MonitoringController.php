@@ -18,21 +18,21 @@ class MonitoringController extends Controller
     public function store(Request $request, Startup $startup): RedirectResponse
     {
         $data = $request->validate([
-            'tanggal'           => ['required', 'date'],
-            'periode'           => ['nullable', 'string', 'max:50'],
-            'omzet'             => ['nullable', 'string', 'max:30'],
-            'tenaga_kerja_l'    => ['nullable', 'integer', 'min:0', 'max:100000'],
-            'tenaga_kerja_p'    => ['nullable', 'integer', 'min:0', 'max:100000'],
-            'jumlah_mitra'      => ['nullable', 'integer', 'min:0', 'max:100000'],
+            'tanggal' => ['required', 'date'],
+            'periode' => ['nullable', 'string', 'max:50'],
+            'omzet' => ['nullable', 'string', 'max:30'],
+            'tenaga_kerja_l' => ['nullable', 'integer', 'min:0', 'max:100000'],
+            'tenaga_kerja_p' => ['nullable', 'integer', 'min:0', 'max:100000'],
+            'jumlah_mitra' => ['nullable', 'integer', 'min:0', 'max:100000'],
             'wilayah_penjualan' => ['nullable', 'string', 'max:255'],
-            'izin_edar'         => ['nullable', 'string', 'max:255'],
-            'catatan'           => ['nullable', 'string', 'max:5000'],
+            'izin_edar' => ['nullable', 'string', 'max:255'],
+            'catatan' => ['nullable', 'string', 'max:5000'],
         ], [], [
-            'tanggal'           => 'tanggal pencatatan',
-            'omzet'             => 'omzet',
-            'tenaga_kerja_l'    => 'tenaga kerja laki-laki',
-            'tenaga_kerja_p'    => 'tenaga kerja perempuan',
-            'jumlah_mitra'      => 'jumlah mitra',
+            'tanggal' => 'tanggal pencatatan',
+            'omzet' => 'omzet',
+            'tenaga_kerja_l' => 'tenaga kerja laki-laki',
+            'tenaga_kerja_p' => 'tenaga kerja perempuan',
+            'jumlah_mitra' => 'jumlah mitra',
             'wilayah_penjualan' => 'wilayah penjualan',
         ]);
 

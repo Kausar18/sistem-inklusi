@@ -15,16 +15,16 @@ class DokumentasiController extends Controller
 
     private const KATEGORI = [
         'foto_ceo', 'logo_startup', 'foto_produk', 'company_profile',
-        'bmc', 'proposal', 'infografis', 'lainnya',
+        'bmc', 'infografis', 'lainnya',
     ];
 
     public function store(Request $request, Startup $startup): RedirectResponse
     {
         $data = $request->validate([
-            'kategori' => ['required', 'in:' . implode(',', self::KATEGORI)],
-            'judul'    => ['nullable', 'string', 'max:255'],
-            'link'     => ['nullable', 'url', 'max:500'],
-            'berkas'   => ['nullable', 'file', 'max:10240', 'mimes:' . self::MIME_DIIZINKAN],
+            'kategori' => ['required', 'in:'.implode(',', self::KATEGORI)],
+            'judul' => ['nullable', 'string', 'max:255'],
+            'link' => ['nullable', 'url', 'max:500'],
+            'berkas' => ['nullable', 'file', 'max:10240', 'mimes:'.self::MIME_DIIZINKAN],
         ]);
 
         $file = $this->tentukanFile($request, 'dokumentasi');
@@ -37,8 +37,8 @@ class DokumentasiController extends Controller
 
         $startup->dokumentasi()->create([
             'kategori' => $data['kategori'],
-            'judul'    => $data['judul'] ?? null,
-            'file'     => $file,
+            'judul' => $data['judul'] ?? null,
+            'file' => $file,
         ]);
 
         return back()->with('sukses', 'Dokumentasi ditambahkan.')->withFragment('dokumentasi');

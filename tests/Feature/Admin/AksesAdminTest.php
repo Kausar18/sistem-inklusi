@@ -23,7 +23,7 @@ class AksesAdminTest extends TestCase
         $startup = Startup::factory()->create();
 
         $response = $this->post("/startup/{$startup->id}/pendampingan", [
-            'jenis'   => 'training',
+            'jenis' => 'training',
             'tanggal' => now()->toDateString(),
         ]);
 
@@ -58,7 +58,7 @@ class AksesAdminTest extends TestCase
         $startup = Startup::factory()->create();
 
         $response = $this->actingAs($user)->post("/startup/{$startup->id}/pendampingan", [
-            'jenis'   => 'training',
+            'jenis' => 'training',
             'tanggal' => now()->toDateString(),
         ]);
 

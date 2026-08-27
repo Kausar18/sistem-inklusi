@@ -13,14 +13,14 @@ class PendampinganController extends Controller
     public function store(Request $request, Startup $startup): RedirectResponse
     {
         $data = $request->validate([
-            'jenis'      => ['required', 'in:training,mentoring,business_matching,form_pendaftaran,lainnya'],
-            'tanggal'    => ['required', 'date'],
+            'jenis' => ['required', 'in:training,mentoring,business_matching,form_pendaftaran,lainnya'],
+            'tanggal' => ['required', 'date'],
             'pendamping' => ['nullable', 'string', 'max:150'],
-            'lokasi'     => ['nullable', 'string', 'max:255'],
-            'catatan'    => ['nullable', 'string', 'max:5000'],
+            'lokasi' => ['nullable', 'string', 'max:255'],
+            'catatan' => ['nullable', 'string', 'max:5000'],
         ], [], [
-            'jenis'      => 'jenis kegiatan',
-            'tanggal'    => 'tanggal kegiatan',
+            'jenis' => 'jenis kegiatan',
+            'tanggal' => 'tanggal kegiatan',
             'pendamping' => 'nama pendamping',
         ]);
 

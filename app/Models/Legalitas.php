@@ -15,4 +15,24 @@ class Legalitas extends Model
     {
         return $this->belongsTo(Startup::class);
     }
+
+    /** Cek apakah nilai kolom file berupa URL eksternal (mis. Google Drive). */
+    public function getIsExternalAttribute(): bool
+    {
+        return str_starts_with((string) $this->file, 'http://')
+            || str_starts_with((string) $this->file, 'https://');
+    }
+
+    /**
+     * Link ke berkas asli. Link eksternal dipakai apa adanya; path lokal
+     * (hasil upload lewat panel admin) diberi awalan asset('storage/...').
+     */
+    public function getUrlAsliAttribute(): ?string
+    {
+        if (blank($this->file)) {
+            return null;
+        }
+
+        return $this->is_external ? $this->file : asset('storage/'.$this->file);
+    }
 }

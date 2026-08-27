@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('batch', 20)->nullable()->comment('Batch 1 / Batch 2 / dst');
             $table->year('tahun_program')->nullable();
             $table->string('skema_program', 50)->nullable()
-                  ->comment('Pra-Akselerasi / Inkubasi / Akselerasi');
+                ->comment('Pra-Akselerasi / Inkubasi / Akselerasi');
 
             // ---------- Identitas startup & CEO ----------
             $table->string('nama_startup', 200);
@@ -43,9 +43,9 @@ return new class extends Migration
 
             // ---------- Usaha & produk ----------
             $table->foreignId('bidang_usaha_id')
-                  ->nullable()
-                  ->constrained('bidang_usaha')
-                  ->nullOnDelete();
+                ->nullable()
+                ->constrained('bidang_usaha')
+                ->nullOnDelete();
             $table->date('mulai_usaha')->nullable();
             $table->string('nama_produk', 255)->nullable();
             $table->text('deskripsi_produk')->nullable();
@@ -76,7 +76,7 @@ return new class extends Migration
             $table->decimal('omset_awal', 18, 2)->nullable()->default(0);
             $table->string('omset_awal_teks', 255)->nullable()->comment('nilai asli dari Excel');
             $table->string('periode_omset_awal', 50)->nullable()
-                  ->comment('mis. "Tahun 2025", "Jan-Mar 2026"');
+                ->comment('mis. "Tahun 2025", "Jan-Mar 2026"');
 
             // ---------- Narasi ----------
             $table->text('permasalahan_utama')->nullable();

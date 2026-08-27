@@ -63,8 +63,8 @@ class ParserData
 
                 $pengali = match (true) {
                     str_starts_with($satuan, 'mil'), $satuan === 'm' => 1_000_000_000,
-                    $satuan === 'juta'                               => 1_000_000,
-                    default                                          => 1_000,
+                    $satuan === 'juta' => 1_000_000,
+                    default => 1_000,
                 };
 
                 // "3,2" / "1.6" -> desimal; selain itu titik/koma = pemisah ribuan
@@ -235,8 +235,8 @@ class ParserData
             }
 
             $hasil[] = [
-                'nama'          => $nama,
-                'jabatan'       => mb_substr($jabatan, 0, 100),
+                'nama' => $nama,
+                'jabatan' => mb_substr($jabatan, 0, 100),
                 'jenis_kelamin' => $gender,
             ];
         }
@@ -262,7 +262,7 @@ class ParserData
         if (preg_match('/\b(kabupaten|kab\.?|kota)\s+([A-Za-z\s]{3,30}?)(?=[,.\n]|\s+provinsi|\s+jawa|$)/iu', $teks, $cocok)) {
             $jenis = str_starts_with(strtolower($cocok[1]), 'kota') ? 'Kota' : 'Kabupaten';
 
-            return $jenis . ' ' . ucwords(strtolower(trim($cocok[2])));
+            return $jenis.' '.ucwords(strtolower(trim($cocok[2])));
         }
 
         // Cocokkan dengan daftar kota yang sering muncul di data

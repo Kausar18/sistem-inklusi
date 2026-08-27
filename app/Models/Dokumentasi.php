@@ -33,12 +33,12 @@ class Dokumentasi extends Model
     public function gambar(int $lebar = 400): ?string
     {
         if (! $this->is_external) {
-            return $this->file ? asset('storage/' . $this->file) : null;
+            return $this->file ? asset('storage/'.$this->file) : null;
         }
 
         if (preg_match('#[?&]id=([\w-]+)#', $this->file, $cocok)
             || preg_match('#/file/d/([\w-]+)#', $this->file, $cocok)) {
-            return 'https://drive.google.com/thumbnail?id=' . $cocok[1] . '&sz=w' . $lebar;
+            return 'https://drive.google.com/thumbnail?id='.$cocok[1].'&sz=w'.$lebar;
         }
 
         return $this->file;
@@ -48,5 +48,19 @@ class Dokumentasi extends Model
     public function getUrlGambarAttribute(): ?string
     {
         return $this->gambar(400);
+    }
+
+    /**
+     * Link ke berkas ASLI (bukan thumbnail) — dipakai untuk "lihat ukuran
+     * penuh" atau unduh. Link eksternal dipakai apa adanya; path lokal
+     * (hasil upload lewat panel admin) diberi awalan asset('storage/...').
+     */
+    public function getUrlAsliAttribute(): ?string
+    {
+        if (blank($this->file)) {
+            return null;
+        }
+
+        return $this->is_external ? $this->file : asset('storage/'.$this->file);
     }
 }

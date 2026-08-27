@@ -154,13 +154,9 @@
             <input type="text" class="form-control" id="nama_produk" name="nama_produk"
                    value="{{ old('nama_produk', $startup->nama_produk) }}">
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <label class="label-filter d-block" for="deskripsi_produk">Deskripsi produk</label>
             <textarea class="form-control" id="deskripsi_produk" name="deskripsi_produk" rows="3">{{ old('deskripsi_produk', $startup->deskripsi_produk) }}</textarea>
-        </div>
-        <div class="col-md-6">
-            <label class="label-filter d-block" for="judul_proposal">Judul proposal</label>
-            <textarea class="form-control" id="judul_proposal" name="judul_proposal" rows="3">{{ old('judul_proposal', $startup->judul_proposal) }}</textarea>
         </div>
     </div>
 </div>

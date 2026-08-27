@@ -27,12 +27,12 @@ class StartupController extends Controller
             );
 
         $statistik = [
-            'jumlah'      => (clone $terfilter())->count(),
-            'omset'       => (clone $terfilter())->sum('omset_awal'),
-            'tenaga_l'    => (clone $terfilter())->sum('tenaga_kerja_l'),
-            'tenaga_p'    => (clone $terfilter())->sum('tenaga_kerja_p'),
-            'wilayah'     => (clone $terfilter())->whereNotNull('kota')->distinct()->count('kota'),
-            'omset_maks'  => (clone $terfilter())->max('omset_awal') ?: 0,
+            'jumlah' => (clone $terfilter())->count(),
+            'omset' => (clone $terfilter())->sum('omset_awal'),
+            'tenaga_l' => (clone $terfilter())->sum('tenaga_kerja_l'),
+            'tenaga_p' => (clone $terfilter())->sum('tenaga_kerja_p'),
+            'wilayah' => (clone $terfilter())->whereNotNull('kota')->distinct()->count('kota'),
+            'omset_maks' => (clone $terfilter())->max('omset_awal') ?: 0,
             'invensi_ipb' => (clone $terfilter())->whereIn('asal_invensi', ['IPB', 'Kombinasi'])->count(),
         ];
 
@@ -46,13 +46,13 @@ class StartupController extends Controller
             ->withQueryString();
 
         return view('startup.index', [
-            'startups'     => $startups,
-            'statistik'    => $statistik,
+            'startups' => $startups,
+            'statistik' => $statistik,
             'daftarBidang' => BidangUsaha::orderBy('nama_bidang')->get(),
-            'daftarKota'   => Startup::whereNotNull('kota')->distinct()->orderBy('kota')->pluck('kota'),
-            'daftarBatch'  => Startup::whereNotNull('batch')->distinct()->orderBy('batch')->pluck('batch'),
-            'totalSemua'   => Startup::count(),
-            'adaFilter'    => $request->hasAny(['q', 'kota', 'bidang', 'batch', 'invensi', 'gender', 'omset_min', 'omset_max']),
+            'daftarKota' => Startup::whereNotNull('kota')->distinct()->orderBy('kota')->pluck('kota'),
+            'daftarBatch' => Startup::whereNotNull('batch')->distinct()->orderBy('batch')->pluck('batch'),
+            'totalSemua' => Startup::count(),
+            'adaFilter' => $request->hasAny(['q', 'kota', 'bidang', 'batch', 'invensi', 'gender', 'omset_min', 'omset_max']),
         ]);
     }
 
@@ -66,7 +66,7 @@ class StartupController extends Controller
             'dokumentasi',
             'targetOutput',
             'pendampingan' => fn ($q) => $q->orderByDesc('tanggal'),
-            'monitoring'   => fn ($q) => $q->orderByDesc('tanggal'),
+            'monitoring' => fn ($q) => $q->orderByDesc('tanggal'),
         ]);
 
         // Titik "AFTER" diambil dari catatan monitoring terbaru.
@@ -74,31 +74,37 @@ class StartupController extends Controller
 
         $perbandingan = [
             'omset' => [
-                'label'  => 'Omset',
+                'label' => 'Omset',
                 'before' => (float) $startup->omset_awal,
-                'after'  => $terbaru?->omzet !== null ? (float) $terbaru->omzet : null,
+                'after' => $terbaru?->omzet !== null ? (float) $terbaru->omzet : null,
                 'format' => 'rupiah',
             ],
             'tenaga_kerja' => [
-                'label'  => 'Tenaga kerja',
+                'label' => 'Tenaga kerja',
                 'before' => (float) $startup->total_tenaga_kerja,
-                'after'  => $terbaru && $terbaru->tenaga_kerja_l !== null
+                'after' => $terbaru && $terbaru->tenaga_kerja_l !== null
                                 ? (float) $terbaru->total_tenaga_kerja
                                 : null,
                 'format' => 'angka',
             ],
+            'jangkauan_pasar' => [
+                'label' => 'Jangkauan pasar',
+                'before' => $startup->jangkauan_pasar,
+                'after' => $terbaru?->wilayah_penjualan,
+                'format' => 'teks',
+            ],
         ];
 
         return view('startup.show', [
-            'startup'      => $startup,
-            'logo'         => $startup->dokumentasi->firstWhere('kategori', 'logo_startup'),
-            'fotoCeo'      => $startup->dokumentasi->firstWhere('kategori', 'foto_ceo'),
-            'fotoProduk'   => $startup->dokumentasi->where('kategori', 'foto_produk'),
+            'startup' => $startup,
+            'logo' => $startup->dokumentasi->firstWhere('kategori', 'logo_startup'),
+            'fotoCeo' => $startup->dokumentasi->firstWhere('kategori', 'foto_ceo'),
+            'fotoProduk' => $startup->dokumentasi->where('kategori', 'foto_produk'),
             // Berkas non-gambar: proposal, company profile, BMC, dll
-            'berkas'       => $startup->dokumentasi->whereNotIn('kategori', [
-                                  'logo_startup', 'foto_ceo', 'foto_produk',
-                              ]),
-            'terbaru'      => $terbaru,
+            'berkas' => $startup->dokumentasi->whereNotIn('kategori', [
+                'logo_startup', 'foto_ceo', 'foto_produk',
+            ]),
+            'terbaru' => $terbaru,
             'perbandingan' => $perbandingan,
         ]);
     }
@@ -109,16 +115,16 @@ class StartupController extends Controller
         $startup->load(['bidangUsaha', 'anggotaTim', 'legalitas', 'dokumentasi']);
 
         return view('startup.infografis', [
-            'startup'    => $startup,
-            'logo'       => $startup->dokumentasi->firstWhere('kategori', 'logo_startup'),
+            'startup' => $startup,
+            'logo' => $startup->dokumentasi->firstWhere('kategori', 'logo_startup'),
             'fotoProduk' => $startup->dokumentasi->where('kategori', 'foto_produk'),
             // Ringkas nilai rupiah menjadi "Rp 1,4 M" atau "Rp 486 Jt"
-            'ringkas'    => function ($nilai) {
+            'ringkas' => function ($nilai) {
                 if ($nilai >= 1_000_000_000) {
-                    return 'Rp ' . number_format($nilai / 1_000_000_000, 1, ',', '.') . ' M';
+                    return 'Rp '.number_format($nilai / 1_000_000_000, 1, ',', '.').' M';
                 }
 
-                return 'Rp ' . number_format($nilai / 1_000_000, 0, ',', '.') . ' Jt';
+                return 'Rp '.number_format($nilai / 1_000_000, 0, ',', '.').' Jt';
             },
         ]);
     }
@@ -139,8 +145,8 @@ class StartupController extends Controller
     {
         return match ($urut) {
             'omset_tertinggi', 'omset_terendah' => 'omset_awal',
-            'tenaga_kerja'                      => 'tenaga_kerja_l',
-            default                             => 'nama_startup',
+            'tenaga_kerja' => 'tenaga_kerja_l',
+            default => 'nama_startup',
         };
     }
 

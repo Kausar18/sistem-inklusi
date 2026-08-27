@@ -16,10 +16,10 @@ class LegalitasController extends Controller
     public function store(Request $request, Startup $startup): RedirectResponse
     {
         $data = $request->validate([
-            'tipe'   => ['required', 'in:usaha,produk'],
-            'nama'   => ['required', 'string', 'max:150'],
-            'link'   => ['nullable', 'url', 'max:500'],
-            'berkas' => ['nullable', 'file', 'max:10240', 'mimes:' . self::MIME_DIIZINKAN],
+            'tipe' => ['required', 'in:usaha,produk'],
+            'nama' => ['required', 'string', 'max:150'],
+            'link' => ['nullable', 'url', 'max:500'],
+            'berkas' => ['nullable', 'file', 'max:10240', 'mimes:'.self::MIME_DIIZINKAN],
         ]);
 
         $startup->legalitas()->create([

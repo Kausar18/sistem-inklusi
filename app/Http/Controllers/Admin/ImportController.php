@@ -26,8 +26,8 @@ class ImportController extends Controller
     {
         $data = $request->validate([
             'berkas' => ['required', 'file', 'mimes:xlsx,xls'],
-            'batch'  => ['nullable', 'string', 'max:20'],
-            'tahun'  => ['nullable', 'integer', 'digits:4'],
+            'batch' => ['nullable', 'string', 'max:20'],
+            'tahun' => ['nullable', 'integer', 'digits:4'],
         ], [], [
             'berkas' => 'berkas Excel',
         ]);
@@ -46,11 +46,11 @@ class ImportController extends Controller
         }
 
         return view('admin.import.pilih-sheet', [
-            'daftarSheet'   => $daftarSheet,
+            'daftarSheet' => $daftarSheet,
             'pathSementara' => $pathSementara,
-            'namaAsli'      => $namaAsli,
-            'batch'         => $data['batch'] ?? null,
-            'tahun'         => $data['tahun'] ?? null,
+            'namaAsli' => $namaAsli,
+            'batch' => $data['batch'] ?? null,
+            'tahun' => $data['tahun'] ?? null,
         ]);
     }
 
@@ -59,10 +59,10 @@ class ImportController extends Controller
     {
         $data = $request->validate([
             'path_sementara' => ['required', 'string'],
-            'nama_asli'      => ['required', 'string'],
-            'sheet'          => ['required', 'string'],
-            'batch'          => ['nullable', 'string', 'max:20'],
-            'tahun'          => ['nullable', 'integer', 'digits:4'],
+            'nama_asli' => ['required', 'string'],
+            'sheet' => ['required', 'string'],
+            'batch' => ['nullable', 'string', 'max:20'],
+            'tahun' => ['nullable', 'integer', 'digits:4'],
         ]);
 
         abort_unless(Storage::disk(self::DISK)->exists($data['path_sementara']), 404);
@@ -105,7 +105,7 @@ class ImportController extends Controller
             );
         } catch (\Throwable $e) {
             return redirect()->route('admin.import.create')
-                ->withErrors(['berkas' => 'Import gagal: ' . $e->getMessage()]);
+                ->withErrors(['berkas' => 'Import gagal: '.$e->getMessage()]);
         }
 
         $pesan = "Berhasil impor {$hasil['berhasil']} startup dari sheet \"{$sheet}\".";

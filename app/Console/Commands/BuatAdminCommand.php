@@ -53,8 +53,8 @@ class BuatAdminCommand extends Command
         }
 
         User::create([
-            'name'     => $nama,
-            'email'    => $email,
+            'name' => $nama,
+            'email' => $email,
             'password' => $password,
         ]);
 

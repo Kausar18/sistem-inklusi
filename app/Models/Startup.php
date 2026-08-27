@@ -17,9 +17,9 @@ class Startup extends Model
 
     protected $casts = [
         'tanggal_lahir_ceo' => 'date',
-        'mulai_usaha'       => 'date',
-        'modal_awal'        => 'decimal:2',
-        'omset_awal'        => 'decimal:2',
+        'mulai_usaha' => 'date',
+        'modal_awal' => 'decimal:2',
+        'omset_awal' => 'decimal:2',
     ];
 
     // ==================================================================
@@ -85,7 +85,7 @@ class Startup extends Model
     public function getPersenKenaikanOmsetAttribute(): ?float
     {
         $before = (float) $this->omset_awal;
-        $after  = (float) optional($this->monitoringTerbaru)->omzet;
+        $after = (float) optional($this->monitoringTerbaru)->omzet;
 
         if ($before <= 0 || $after <= 0) {
             return null;
@@ -107,8 +107,8 @@ class Startup extends Model
 
         return $query->where(function (Builder $q) use ($keyword) {
             $q->where('nama_startup', 'like', "%{$keyword}%")
-              ->orWhere('nama_ceo', 'like', "%{$keyword}%")
-              ->orWhere('nama_produk', 'like', "%{$keyword}%");
+                ->orWhere('nama_ceo', 'like', "%{$keyword}%")
+                ->orWhere('nama_produk', 'like', "%{$keyword}%");
         });
     }
 
