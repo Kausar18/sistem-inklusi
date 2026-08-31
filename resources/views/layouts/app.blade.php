@@ -243,6 +243,20 @@
 
         .btn-utama:hover { background: #0E3878; border-color: #0E3878; color: #fff; }
 
+        /* Tombol biru dengan aksen kuning/emas — dipakai untuk tombol "kembali". */
+        .btn-kembali {
+            background: var(--biru);
+            border: 1px solid var(--emas);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .btn-kembali:hover {
+            background: #0E3878;
+            border-color: var(--emas-tua);
+            color: #fff;
+        }
+
         .chip {
             display: inline-flex;
             align-items: center;

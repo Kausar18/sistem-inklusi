@@ -7,7 +7,7 @@
 {{-- ======================== NAVIGASI BALIK ======================== --}}
 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
     <a href="{{ route('startup.index') }}"
-       class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-2">
+       class="btn btn-sm btn-kembali d-inline-flex align-items-center gap-2">
         <i class="bi bi-arrow-left"></i> Kembali ke daftar
     </a>
 
@@ -63,8 +63,10 @@
                 @if (in_array($startup->asal_invensi, ['IPB', 'Kombinasi']))
                     <span class="tag tag-ipb">Invensi {{ $startup->asal_invensi }}</span>
                 @endif
-                @if ($startup->batch)
-                    <span class="tag tag-netral">{{ $startup->batch }}</span>
+                @if ($startup->batch || $startup->tahun_program)
+                    <span class="tag tag-netral">
+                        {{ $startup->batch }}{{ $startup->batch && $startup->tahun_program ? ' · ' : '' }}{{ $startup->tahun_program }}
+                    </span>
                 @endif
                 @if ($startup->skema_program)
                     <span class="tag tag-netral">{{ $startup->skema_program }}</span>

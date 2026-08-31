@@ -70,6 +70,50 @@
     </div>
 @endif
 
+{{-- ======================== TENAGA KERJA: SEBELUM VS SESUDAH ======================== --}}
+@if ($ringkasan['monitoring'] > 0)
+    @php
+        $sebelumTk = $tenagaKerja['sebelum'];
+        $sesudahTk = $tenagaKerja['sesudah'];
+        $selisihTk = $sesudahTk - $sebelumTk;
+        $persenTk = $sebelumTk > 0 ? round(($selisihTk / $sebelumTk) * 100, 1) : null;
+        $naikTk = $selisihTk >= 0;
+    @endphp
+    <div class="panel reveal p-4 mb-4">
+        <h2 class="h6 mb-1">Perkembangan tenaga kerja</h2>
+        <p class="small mb-3" style="color: var(--redup);">
+            Total tenaga kerja seluruh startup binaan, dari data saat bergabung hingga
+            pemantauan terakhir yang tercatat
+        </p>
+
+        <div class="kotak-banding">
+            <div class="d-flex align-items-end justify-content-between gap-3">
+                <div>
+                    <div class="label-kecil">Saat bergabung</div>
+                    <div class="angka-banding">{{ number_format($sebelumTk, 0, ',', '.') }}</div>
+                </div>
+
+                <i class="bi bi-arrow-right mb-2" style="color: var(--redup);"></i>
+
+                <div class="text-end">
+                    <div class="label-kecil">Data terakhir</div>
+                    <div class="angka-banding">{{ number_format($sesudahTk, 0, ',', '.') }}</div>
+                </div>
+            </div>
+
+            @if ($persenTk !== null)
+                <div class="mt-2 fw-semibold small {{ $naikTk ? 'teks-naik' : 'teks-turun' }}">
+                    <i class="bi bi-arrow-{{ $naikTk ? 'up' : 'down' }}-right"></i>
+                    {{ $naikTk ? '+' : '' }}{{ number_format($persenTk, 1, ',', '.') }}%
+                    <span class="fw-normal" style="color: var(--redup);">
+                        ({{ $naikTk ? '+' : '' }}{{ number_format($selisihTk, 0, ',', '.') }} orang)
+                    </span>
+                </div>
+            @endif
+        </div>
+    </div>
+@endif
+
 {{-- ======================== GRAFIK BARIS 1 ======================== --}}
 <div class="row g-3 mb-3">
 

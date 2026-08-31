@@ -13,6 +13,7 @@ class DashboardController extends Controller
     {
         return view('dashboard', [
             'ringkasan' => $this->ringkasan(),
+            'tenagaKerja' => $this->perbandinganTenagaKerja(),
             'bidangUsaha' => $this->sebaranBidangUsaha(),
             'wilayah' => $this->sebaranWilayah(),
             'batch' => $this->perbandinganBatch(),
@@ -37,6 +38,29 @@ class DashboardController extends Controller
             'invensi_ipb' => Startup::whereIn('asal_invensi', ['IPB', 'Kombinasi'])->count(),
             'ceo_p' => Startup::where('jenis_kelamin_ceo', 'P')->count(),
             'monitoring' => DB::table('monitoring')->count(),
+        ];
+    }
+
+    /**
+     * Perbandingan agregat tenaga kerja seluruh startup: baseline saat
+     * bergabung vs data pemantauan terakhir (kalau startup belum pernah
+     * dipantau, dianggap belum berubah dari baseline).
+     */
+    private function perbandinganTenagaKerja(): array
+    {
+        $startup = Startup::with('monitoringTerbaru')->get(['id', 'tenaga_kerja_l', 'tenaga_kerja_p']);
+
+        $sesudah = $startup->sum(function (Startup $item) {
+            $terbaru = $item->monitoringTerbaru;
+
+            return $terbaru && $terbaru->tenaga_kerja_l !== null
+                ? $terbaru->total_tenaga_kerja
+                : $item->total_tenaga_kerja;
+        });
+
+        return [
+            'sebelum' => (int) $startup->sum('total_tenaga_kerja'),
+            'sesudah' => (int) $sesudah,
         ];
     }
 

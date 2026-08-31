@@ -263,8 +263,10 @@
                             <span class="tag tag-ipb">Invensi {{ $startup->asal_invensi }}</span>
                         @endif
 
-                        @if ($startup->batch)
-                            <span class="tag tag-netral">{{ $startup->batch }}</span>
+                        @if ($startup->batch || $startup->tahun_program)
+                            <span class="tag tag-netral">
+                                {{ $startup->batch }}{{ $startup->batch && $startup->tahun_program ? ' · ' : '' }}{{ $startup->tahun_program }}
+                            </span>
                         @endif
                     </div>
 
